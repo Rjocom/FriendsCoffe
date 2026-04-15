@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends Coffe - Menu Kopi & Non Kopi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background: linear-gradient(135deg, #3d3d3d 0%, #6f6f6f 100%);
+        }
+        
+        header {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('img/logo_coffe.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            text-align: center;
+            padding: 2rem 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        header h1 {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        nav {
+            background: #1a1a1a;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        nav button {
+            background: #333333;
+            color: #ffffff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        nav button.active,
+        nav button:hover {
+            background: #444444;
+            transform: translateY(-2px);
+        }
+        
+        .menu-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .menu-section {
+            display: none;
+            margin-bottom: 3rem;
+        }
+        
+        .menu-section.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #333333;
+            border-radius: 2px;
+        }
+        
+        .sub-nav {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .sub-nav button {
+            background: #2a2a2a;
+            color: #ffffff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            margin: 0 0.3rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .sub-nav button.active,
+        .sub-nav button:hover {
+            background: #333333;
+            transform: translateY(-1px);
+        }
+        
+        .filter-item {
+            transition: opacity 0.3s;
+        }
+        
+        .filter-item.hidden {
+            display: none;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .menu-item {
+            background: #2a2a2a;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2);
+        }
+        
+        .menu-item h3 {
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .menu-item p {
+            color: #b0b0b0;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        
+        footer {
+            background: #0f0f0f;
+            color: #f0f0f0;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            nav button {
+                display: block;
+                margin: 0.5rem auto;
+                width: 200px;
+            }
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Friends Coffe</h1>
+        <p>Nikmati Menu Kopi & Non Kopi Terbaik</p>
+    </header>
+    <nav>
+        <button onclick="showSection('kopi', this)" class="active">Kopi</button>
+        <button onclick="showSection('non-kopi', this)">Non Kopi</button>
+    </nav>
+    <div class="menu-container">
+        <section id="kopi" class="menu-section active">
+            <h2 class="section-title">Menu Kopi</h2>
+            <div class="sub-nav">
+                <button onclick="filterSection('kopi', 'semua', this)" class="active">Semua</button>
+                <button onclick="filterSection('kopi', 'original', this)">Original</button>
+                <button onclick="filterSection('kopi', 'blended', this)">Blended</button>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item filter-item original">
+                    <h3>Americano</h3>
+                    <p>Kopi hitam strong</p>
+                    <div class="price">Rp 12.000</div>
+                </div>
+                <div class="menu-item filter-item original  ">
+                    <h3>Cappuccino</h3>
+                    <p>Crema susu tebal</p>
+                    <div class="price">Rp 12.000</div>
+                </div>
+                <div class="menu-item filter-item blended">
+                    <h3>Latte</h3>
+                    <p>Susu steamed lembut</p>
+                    <div class="price">Rp 12.000</div>
+                </div>
+                <div class="menu-item filter-item blended">
+                    <h3>Cookies and Cream Coffe</h3>
+                    <p>Coffe dengan perpaduan oreo</p>
+                    <div class="price">Rp 15.000</div>
+                </div>
+                <div class="menu-item filter-item blended">
+                    <h3>Ice Coffe Mocha</h3>
+                    <p>Kopi dengan Coklat</p>
+                    <div class="price">Rp 15.000</div>
+                </div>
+                <div class="menu-item filter-item blended">
+                    <h3>pistan Late</h3>
+                    <p>perpaduan antara kopi, pandan dan psthacio</p>
+                    <div class="price">Rp 15.000</div>
+                </div>
+                <div class="menu-item filter-item blended">
+                    <h3>Tiramisu</h3>
+                    <p>Buterscot dengan rasa creamy dari cream</p>
+                    <div class="price">Rp 15.000</div>
+                </div>
+                <div class="menu-item filter-item blended">
+                    <h3>god coffe</h3>
+                    <p>rasa kopi yang creamy dan soft</p>
+                    <div class="price">Rp 10.000</div>
+                </div>
+
+                <div class="menu-item filter-item blended">
+                    <h3>coffe Avocado</h3>
+                    <p>Kopi dengan rasa Alpukat</p>
+                    <div class="price">Rp 10.000</div>
+                </div>
+            </div>
+        </section>
+        <section id="non-kopi" class="menu-section">
+            <h2 class="section-title">Menu Non Kopi</h2>
+            <div class="sub-nav">
+                <button onclick="filterSection('non-kopi', 'semua', this)" class="active">Semua</button>
+                <button onclick="filterSection('non-kopi', 'minuman', this)">Minuman</button>
+                <button onclick="filterSection('non-kopi', 'snack', this)">Snack</button>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item filter-item minuman">
+                    <h3>Taro</h3>
+                    <!-- <p>Teh tarik creamy</p> -->
+                    <div class="price">Rp 15.000</div>
+                </div>
+                <div class="menu-item filter-item minuman">
+                    <h3>Redvelvet</h3>
+                    <!-- <p>Segar asli</p> -->
+                    <div class="price">Rp 15.000</div>
+                </div>
+                <div class="menu-item filter-item minuman">
+                    <h3>Cookies and Cream</h3>
+                    <!-- <p>Asam manis dingin</p> -->
+                    <div class="price">Rp 15.000</div>
+                </div>
+                <div class="menu-item filter-item minuman">
+                    <h3>Matcha</h3>
+                    <!-- <p>Susu coklat kental</p> -->
+                    <div class="price">Rp 15.000</div>
+                </div>
+                <div class="menu-item filter-item minuman">
+                    <h3>Ice Coklat</h3>
+                    <!-- <p>Crispy dengan gula</p> -->
+                    <div class="price">Rp 12.000</div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; 2026 Friends Coffe</p>
+    </footer>
+    <script>
+        let currentSection = 'kopi';
+
+        function showSection(sectionId, btn) {
+            document.querySelectorAll('.menu-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            btn.classList.add('active');
+            currentSection = sectionId;
+            // Reset to 'semua' when switching section
+            const semuaBtn = document.querySelector(`#${sectionId} .sub-nav button[onclick*="'semua'"]`);
+            if (semuaBtn) filterSection(sectionId, 'semua', semuaBtn);
+        }
+
+        function filterSection(sectionId, type, btn) {
+            const items = document.querySelectorAll(`#${sectionId} .filter-item`);
+            items.forEach(item => {
+                item.classList.remove('hidden');
+                if (type !== 'semua' && !item.classList.contains(type)) {
+                    item.classList.add('hidden');
+                }
+            });
+            const subBtns = document.querySelectorAll(`#${sectionId} .sub-nav button`);
+            subBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
