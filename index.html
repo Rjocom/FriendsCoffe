@@ -71,7 +71,6 @@
             padding: 0.4rem 1.6rem;
             border-radius: 60px;
         }
-        /* kategori */
         
         .menu-categories {
             display: flex;
@@ -107,7 +106,6 @@
             background: #e5d8ca;
             transform: translateY(-2px);
         }
-        /* menu grid */
         
         .menu-grid {
             display: grid;
@@ -237,7 +235,6 @@
             background: #1da959;
             transform: scale(0.97);
         }
-        /* keranjang / ringkasan pesanan */
         
         .cart-sidebar {
             position: fixed;
@@ -276,7 +273,6 @@
             transform: scale(1.02);
             background: #1f150e;
         }
-        /* modal ringkasan & detail pesanan */
         
         .modal {
             display: none;
@@ -453,19 +449,20 @@
 
         <div class="menu-grid" id="menuGrid"></div>
         <div class="footer-note" style="text-align: center; font-size:0.8rem; color:#86643f; margin-top:1rem;">
-            <span><i class="fab fa-whatsapp"></i> +62 812-3456-7890 (CS)</span>
+            <span><i class="fab fa-whatsapp"></i> 082330855036 </span>
+            <span> <i class="fa-brands fa-instagram"><a> friends_coffe26</a></i> </span>
+            <span> <i class="fa-brands fa-tiktok"></i>friends_coffe26</span>
+            <span> <i class="fa-brands fa-facebook-f"></i>Friends Coffe</span>
             <span><i class="fas fa-clock"></i> 08:00 - 22:00</span>
         </div>
     </div>
 
-    <!-- Floating Cart -->
     <div class="cart-sidebar" id="cartSidebar" style="display: none;">
         <i class="fas fa-shopping-bag"></i>
         <span id="cartCount">0</span> item
         <i class="fas fa-chevron-right"></i>
     </div>
 
-    <!-- Modal untuk konfirmasi & pengisian data pemesan -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <h3><i class="fab fa-whatsapp"></i> Ringkasan Pesanan</h3>
@@ -483,8 +480,7 @@
     </div>
 
     <script>
-        // Konfigurasi Nomor WhatsApp Bisnis (ganti dengan nomor asli)
-        const BUSINESS_PHONE = "6282330855036"; // contoh +62 812-3456-7890
+        const BUSINESS_PHONE = "6282330855036";
 
         // Data Menu Lengkap
         const menuData = [{
@@ -587,10 +583,8 @@
             category: "non-coffee"
         }];
 
-        // Keranjang: { id, name, price, quantity }
         let cart = [];
 
-        // Simpan ke localStorage
         function saveCart() {
             localStorage.setItem('friends_cart', JSON.stringify(cart));
             updateCartUI();
@@ -620,12 +614,10 @@
             } else {
                 cartSidebar.style.display = 'none';
             }
-            // juga re-render menu agar tampilan jumlah tetap sinkron (opsional, tidak perlu re-render semua, tapi tombol quantity tetap up-to-date)
-            // kita akan perbarui tampilan jumlah pada setiap card jika sedang terbuka. panggil syncQtyDisplay()
+ 
             syncQtyDisplayOnCards();
         }
 
-        // Sinkronisasi display jumlah di setiap card berdasarkan cart
         function syncQtyDisplayOnCards() {
             document.querySelectorAll('.menu-card').forEach(card => {
                 const id = parseInt(card.getAttribute('data-id'));
@@ -638,7 +630,6 @@
             });
         }
 
-        // Tambah / kurangi quantity dari card
         function updateQuantity(menuId, delta) {
             const menu = menuData.find(m => m.id === menuId);
             if (!menu) return;
@@ -663,7 +654,6 @@
             showToast(delta > 0 ? `+ ${menu.name}` : `- ${menu.name}`, 1000);
         }
 
-        // Render Menu dengan kontrol jumlah & tombol pesan sekarang (yang nanti akan buka modal)
         function getBackgroundStyle(category) {
             if (category === 'coffee') return `background: linear-gradient(135deg, #e7cfb5, #d9b382);`;
             if (category === 'non-coffee') return `background: linear-gradient(125deg, #ddecd4, #c2ddb0);`;
@@ -726,11 +716,9 @@
                     updateQuantity(id, 1);
                 });
             });
-            // Tombol "Pesan" -> membuka modal ringkasan yang berisi semua item yang sudah dipilih (jumlah > 0)
             document.querySelectorAll('.order-now-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    // Jika keranjang kosong, maka pesan item ini saja dengan quantity 1 (memudahkan)
                     if (cart.length === 0) {
                         const id = parseInt(btn.getAttribute('data-id'));
                         const name = btn.getAttribute('data-name');
@@ -750,13 +738,11 @@
                             saveCart();
                         }
                     }
-                    // Buka modal pesanan dengan semua item yang ada di cart
                     openOrderModal();
                 });
             });
         }
 
-        // Buka modal dan tampilkan daftar pesanan + total
         function openOrderModal() {
             if (cart.length === 0) {
                 showToast("Belum memilih menu. Silakan tambahkan pesanan dulu.");
@@ -813,7 +799,6 @@
             const encoded = encodeURIComponent(message);
             const waUrl = `https://wa.me/${BUSINESS_PHONE}?text=${encoded}`;
             window.open(waUrl, '_blank');
-            // Setelah kirim, kosongkan keranjang?
             if (confirm("Pesanan sudah dikirim ke WhatsApp. Kosongkan keranjang sekarang?")) {
                 cart = [];
                 saveCart();
@@ -853,7 +838,6 @@
             });
         }
 
-        // Inisialisasi filter kategori
         function initFilters() {
             const btns = document.querySelectorAll('.cat-btn');
             let activeCat = 'all';
@@ -877,7 +861,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadCart();
             initFilters();
-            // Sidebar cart (buka modal)
             document.getElementById('cartSidebar').addEventListener('click', openOrderModal);
             document.getElementById('closeModalBtn').addEventListener('click', closeModal);
             document.getElementById('confirmOrderBtn').addEventListener('click', sendOrderToWA);
