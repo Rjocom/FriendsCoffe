@@ -441,10 +441,11 @@
         </div>
 
         <div class="menu-categories">
-            <button class="cat-btn active" data-category="all"><i class="fas fa-utensils"></i> Semua</button>
+            <button class="cat-btn active" data-category="all"><i class=""></i> Semua</button>
             <button class="cat-btn" data-category="coffee"><i class="fas fa-mug-hot"></i> Coffee</button>
             <button class="cat-btn" data-category="non-coffee"><i class="fas fa-leaf"></i> Non-Coffee</button>
-            <button class="cat-btn" data-category="freppio"><i class="fas fa-blender"></i> Freppio</button>
+            <!-- <button class="cat-btn" data-category="freppio"><i class="fas fa-blender"></i> Freppio</button>
+            <button class="cat-btn" data-category="snack"><i class="fas fa-utensils"></i> Snack</button> -->
         </div>
 
         <div class="menu-grid" id="menuGrid"></div>
@@ -482,7 +483,7 @@
     <script>
         const BUSINESS_PHONE = "6282330855036";
 
-        // Data Menu Lengkap
+
         const menuData = [{
             id: 1,
             name: "Cookies and Cream",
@@ -493,7 +494,7 @@
         }, {
             id: 2,
             name: "Latte",
-            desc: "Espresso, steamed milk & caramel.",
+            desc: "Espresso and milk.",
             price: 12000,
             priceStr: "Rp 12.000",
             category: "coffee"
@@ -621,7 +622,7 @@
             } else {
                 cartSidebar.style.display = 'none';
             }
- 
+
             syncQtyDisplayOnCards();
         }
 
@@ -664,6 +665,7 @@
         function getBackgroundStyle(category) {
             if (category === 'coffee') return `background: linear-gradient(135deg, #e7cfb5, #d9b382);`;
             if (category === 'non-coffee') return `background: linear-gradient(125deg, #ddecd4, #c2ddb0);`;
+            if (category === 'snack') return `background: linear-gradient(125deg, #FFEDCE, #FFED0b);`;
             return `background: linear-gradient(115deg, #fbe2c1, #f2ca95);`;
         }
 
@@ -680,7 +682,8 @@
                 const catLabel = {
                     coffee: "☕ Coffee",
                     "non-coffee": "🍃 Non-Coffee",
-                    freppio: "🥤 Freppio"
+                    freppio: "🥤 Freppio",
+                    snack: "🍟 Snack"
                 }[item.category];
                 // cari jumlah dari cart
                 const cartItem = cart.find(c => c.id === item.id);
@@ -688,7 +691,7 @@
                 html += `
                 <div class="menu-card" data-id="${item.id}">
                     <div class="card-img" style="${bgStyle} background-size: cover;">
-                        <span class="badge-category"><i class="fas ${item.category === 'coffee' ? 'fa-mug-hot' : (item.category === 'non-coffee' ? 'fa-leaf' : 'fa-blender')}"></i> ${catLabel}</span>
+                       <span class="badge-category"><i class="fas ${item.category === 'coffee' ? 'fa-mug-hot' : (item.category === 'non-coffee' ? 'fa-leaf' : (item.category === 'freppio' ? 'fa-blender' : 'fa-utensils'))}"></i> ${catLabel}</span>
                     </div>
                     <div class="card-content">
                         <div class="menu-title">${escapeHtml(item.name)}</div>
@@ -708,7 +711,7 @@
             });
             grid.innerHTML = html;
 
-            // Attach event untuk tombol +/-
+
             document.querySelectorAll('.minus-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -729,7 +732,6 @@
                     if (cart.length === 0) {
                         const id = parseInt(btn.getAttribute('data-id'));
                         const name = btn.getAttribute('data-name');
-                        // langsung tambahkan dengan quantity 1 jika belum ada
                         const existing = cart.find(i => i.id === id);
                         if (!existing) {
                             const menu = menuData.find(m => m.id === id);
@@ -772,13 +774,12 @@
             });
             containerItems.innerHTML = itemsHtml || '<div class="empty-cart-msg">Keranjang kosong</div>';
             totalContainer.innerHTML = `<span>Total Pesanan</span><span style="color:#b45a2a;">Rp ${total.toLocaleString('id-ID')}</span>`;
-            // reset input nama & catatan
             document.getElementById('customerName').value = '';
             document.getElementById('customerNote').value = '';
             modal.style.display = 'flex';
         }
 
-        // Kirim pesanan via WhatsApp
+
         function sendOrderToWA() {
             if (cart.length === 0) {
                 showToast("Keranjang kosong!");
